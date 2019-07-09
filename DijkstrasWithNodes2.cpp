@@ -65,7 +65,7 @@ vector<Point> Dijkstras(Point start, Point goal, OcTree* octo, int min_x, int ma
   //Initialize visited array to be the size of all of the nodes Initialized all to zeroes
   int env_x = abs(min_x)+max_x;
   int env_y = abs(min_y)+max_y;
-  int env_z = abs(min_z)+max_z;  
+  int env_z = abs(min_z)+max_z;
   double visited[env_x][env_y][env_z] = {0};
   //Create an array that keeps track of what each point came from
   Point came_from[env_x][env_y][env_z];
@@ -87,10 +87,6 @@ vector<Point> Dijkstras(Point start, Point goal, OcTree* octo, int min_x, int ma
     //remove the node with the minimum cost
     Front min_node = front.top();
     front.pop();
-    cout << "Min Node X: " << min_node.pos.x << endl;
-    cout << "Min Node Y: " << min_node.pos.y << endl;
-    cout << "Min Node Z: " << min_node.pos.z << endl;
-    cout << "Min Node Cost: " << min_node.cost << endl;
 
     //Find the cost, position, and previous node of the current node and store those values
     float cost_of_node = min_node.cost;
@@ -98,18 +94,13 @@ vector<Point> Dijkstras(Point start, Point goal, OcTree* octo, int min_x, int ma
     Point previous_node = min_node.previous;
 
     //Check if this node has been visited before
-    cout << "Visited Number : " << visited[pos_of_node.x][pos_of_node.y][pos_of_node.z] << endl;
     if (visited[pos_of_node.x][pos_of_node.y][pos_of_node.z] > 0){
       continue;
     }
     //if it was not visited, it now is so add it to the visited array
     visited[pos_of_node.x][pos_of_node.y][pos_of_node.z] = cost_of_node;
-    cout << "Visited Number : " << visited[pos_of_node.x][pos_of_node.y][pos_of_node.z] << endl;
     //update the came_from array to show the previous node that is associated with this node
     came_from[pos_of_node.x][pos_of_node.y][pos_of_node.z] = previous_node;
-    cout << "Came From Node X : " << (came_from[pos_of_node.x][pos_of_node.y][pos_of_node.z]).x << endl;
-    cout << "Came From Node Y : " << (came_from[pos_of_node.x][pos_of_node.y][pos_of_node.z]).y << endl;
-    cout << "Came From Node Z : " << (came_from[pos_of_node.x][pos_of_node.y][pos_of_node.z]).z << endl;
     //Are we at the goal?
     if (pos_of_node.x == goal.x && pos_of_node.y == goal.y && pos_of_node.z == goal.z) {
       break;
@@ -123,30 +114,19 @@ vector<Point> Dijkstras(Point start, Point goal, OcTree* octo, int min_x, int ma
       new_x=pos_of_node.x+movements[i].x;
       new_y=pos_of_node.y+movements[i].y;
       new_z=pos_of_node.z+movements[i].z;
-      cout << "New X: " << new_x << endl;
-      cout << "New Y: " << new_y << endl;
-      cout << "New Z: " << new_z << endl;
       if(new_x<min_x || new_x >= max_x || new_y<min_y || new_y>=max_y || new_z<min_z || new_z>=max_z){
         continue;
       }
-      cout << "Passed" << endl;
       Point new_pos;
       new_pos.x = new_x;
       new_pos.y = new_y;
       new_pos.z = new_z;
-      cout << "New Pos X: " << new_pos.x << endl;
-      cout << "New Pos Y: " << new_pos.y << endl;
-      cout << "New Pos Z: " << new_pos.z << endl;
       double temp_x = new_pos.x;
       double temp_y = new_pos.y;
       double temp_z = new_pos.z;
-      cout << "Temp X: " << temp_x << endl;
-      cout << "Temp Y: " << temp_y << endl;
-      cout << "Temp Z: " << temp_z << endl;
-      cout << "Trying to run search: " << octo->search(temp_x, temp_y, temp_z, 0) << endl;
       OcTreeNode* node = octo->search(temp_x, temp_y, temp_z, 0);
       //cout << "Is the node occupied: " << octo->isNodeOccupied(node) << endl;
-      /* 
+      /*
       std::cout << "  x = " << node.getX() << std::endl;
       std::cout << "  y = " << node.getY() << std::endl;
       std::cout << "  z = " << node.getZ() << std::endl;
@@ -166,42 +146,34 @@ vector<Point> Dijkstras(Point start, Point goal, OcTree* octo, int min_x, int ma
 	for(OcTree::leaf_bbx_iterator it = octo -> begin_leafs_bbx(Vector3 (new_pos.x-0.5,new_pos.y-0.5, new_pos.z-0.5), Vector3 (new_pos.x+ 0.5,new_pos.y+0.5, new_pos.z+0.5)), end = octo -> end_leafs_bbx(); it != end; ++it){
                 occupied = octo ->isNodeOccupied(*it);
  		if(occupied == 1){
-		  break;	
+		  break;
 		}
-                
+
         }
 	if(occupied == 0){
 	   front.push({cost_of_node+movements[i].cost, new_pos, pos_of_node});
-        } 
-	cout << "Node is Null" << endl;
-        
+        }
+
        }
       else if(visited[new_pos.x][new_pos.y][new_pos.z]==0 && octo->isNodeOccupied(node) ==0){
 	for(OcTree::leaf_bbx_iterator it = octo -> begin_leafs_bbx(Vector3 (new_pos.x-0.5,new_pos.y-0.5, new_pos.z-0.5), Vector3 (new_pos.x+ 0.5,new_pos.y+0.5, new_pos.z+0.5)), end = octo -> end_leafs_bbx(); it != end; ++it){
                 occupied = octo ->isNodeOccupied(*it);
- 		if(occupied == 1){	
+ 		if(occupied == 1){
 	          break;
 		}
         }
 	if(occupied == 0){
 	   front.push({cost_of_node+movements[i].cost, new_pos, pos_of_node});
         }
-	cout << "Visited Number : " << visited[new_pos.x][new_pos.y][new_pos.z] << endl;
-        cout << "cost of node: " << cost_of_node+movements[i].cost << endl;
-	cout << "Is the node occupied: " << octo->isNodeOccupied(node) << endl;
       }
     }
   }
-  cout << "Passed" << endl;
   //Initialize optimal_path array which contains (x,y,z) points
   vector<Point> path;
   if(pos_of_node.x == goal.x && pos_of_node.y == goal.y && pos_of_node.z == goal.z){
-    cout << "We found the goal" << endl;
     while(pos_of_node.x != start.x || pos_of_node.y != start.y || pos_of_node.z != start.z){
       path.push_back(pos_of_node);
-      cout << "adding to path: (" << pos_of_node.x << ", " << pos_of_node.y << ", " << pos_of_node.z << ")" << endl;
       pos_of_node = came_from[pos_of_node.x][pos_of_node.y][pos_of_node.z];
-      cout << "setting node to be: " << pos_of_node.x << ", " << pos_of_node.y << ", " << pos_of_node.z << ")" << endl;
     }
     path.push_back(start);
     reverse(path.begin(), path.end());
@@ -233,9 +205,9 @@ int main(){
   cout << "Size of Results : "<< results.size() << endl;
  for (int i = 0; i < results.size(); i ++)
 {
- cout << "X : " << results[i].x << std::endl;
- cout << "Y : " << results[i].y << std::endl;
- cout << "Z : " << results[i].z << std::endl;
+ cout << "(" << results[i].x << ", ";
+ cout << results[i].y << ", ";
+ cout << results[i].z << ")" << endl;
 }
   //Use waypoint script information to actually utilize the Points in our vector to move from point to point
 
