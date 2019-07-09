@@ -56,7 +56,7 @@ public:
 };
 
 float distanceBetweenPoints(Point p1, Point p2){
-  return(sqrt((p1.x-p2.x)**2+(p1.y-p2.y)**2+(p1.z-p2.z)**2))
+  return(sqrt(pow((p1.x-p2.x),2)+pow((p1.y-p2.y),2)+pow((p1.z-p2.z),2)));
 }
 
 //Create Dijkstra's algorithm
@@ -64,7 +64,7 @@ vector<Point> Dijkstras(Point start, Point goal, OcTree* octo, int min_x, int ma
   //Initialize to first node which has cost 0, it's only option is start, and it came from no other nodes
   //Front front[?] = {{.00001, start, NULL}};
   priority_queue <Front, vector<Front>, myComparator > front;
-  front.push({.00001+distanceBetweenPoints(start, goal), .00001, start, {0,0,0});
+  front.push({.00001+distanceBetweenPoints(start, goal), .00001, start, {0,0,0}});
   //Initialize visited array to be the size of all of the nodes Initialized all to zeroes
   int env_x = abs(min_x)+max_x;
   int env_y = abs(min_y)+max_y;
@@ -138,8 +138,8 @@ vector<Point> Dijkstras(Point start, Point goal, OcTree* octo, int min_x, int ma
 		            }
         }
         if(occupied == 0){
-          int new_cost = cost_of_node+movements[i].cost;
-          front.push(new_cost+distanceBetweenPoints(new_pos, goal), new_cost, new_pos, pos_of_node)
+          float new_cost = cost_of_node+movements[i].cost;
+          front.push({new_cost+distanceBetweenPoints(new_pos, goal), new_cost, new_pos, pos_of_node});
         }
       }
       else if(visited[new_pos.x][new_pos.y][new_pos.z]==0 && octo->isNodeOccupied(node) ==0){
@@ -150,8 +150,8 @@ vector<Point> Dijkstras(Point start, Point goal, OcTree* octo, int min_x, int ma
       		            }
         }
       	if(occupied == 0){
-          int new_cost = cost_of_node+movements[i].cost;
-          front.push(new_cost+distanceBetweenPoints(new_pos, goal), new_cost, new_pos, pos_of_node)
+          float new_cost = cost_of_node+movements[i].cost;
+          front.push({new_cost+distanceBetweenPoints(new_pos, goal), new_cost, new_pos, pos_of_node});
         }
      }
   }
@@ -180,8 +180,8 @@ int main(){
   int max_z = 4;
   Point start = {0,0,1};
   Point goal = {5,2,1};
-  AbstractOcTree* tree = AbstractOcTree::read("obstacecourse1.ot");
-  OcTree* bt -> dynamic_cast<OcTree*>(tree);
+  AbstractOcTree* tree = AbstractOcTree::read("obstaclecourse1.ot");
+  OcTree* bt = dynamic_cast<OcTree*>(tree);
   //in python code they create an array of all zeros that will contain a value of 255 if an obstacle is there
   //world_obstacles = np.zeros(world_extents, dtype=np.uint8)
   //int obstacles_in_env[env_x][env_y][env_z] = {0};
