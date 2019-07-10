@@ -60,9 +60,15 @@ float distanceBetweenPoints(Point p1, Point p2){
 }
 
 //Create Dijkstra's algorithm
-vector<Point> Dijkstras(Point start, Point goal, OcTree* octo, int min_x, int max_x, int min_y, int max_y, int min_z, int max_z) {
+vector<Point> Dijkstras(Point start, Point goal, OcTree* octo) {
   //Initialize to first node which has cost 0, it's only option is start, and it came from no other nodes
   //Front front[?] = {{.00001, start, NULL}};
+  int min_x = -36;
+  int max_x = 36;
+  int min_y = -36;
+  int max_y = 36;
+  int min_z = 0;
+  int max_z = 72;
   priority_queue <Front, vector<Front>, myComparator > front;
   front.push({.00001+distanceBetweenPoints(start, goal), .00001, start, {0,0,0}});
   //Initialize visited array to be the size of all of the nodes Initialized all to zeroes
@@ -131,7 +137,7 @@ vector<Point> Dijkstras(Point start, Point goal, OcTree* octo, int min_x, int ma
       OcTreeNode* node = octo->search(temp_x, temp_y, temp_z, 0);
       int occupied = 0;
       if(node == 0 && visited[new_pos.x][new_pos.y][new_pos.z]==0 ){
-        for(OcTree::leaf_bbx_iterator it = octo -> begin_leafs_bbx(Vector3 (new_pos.x-0.5,new_pos.y-0.5, new_pos.z-0.5), Vector3 (new_pos.x+ 0.5,new_pos.y+0.5, new_pos.z+0.5)), end = octo -> end_leafs_bbx(); it != end; ++it){
+        for(OcTree::leaf_bbx_iterator it = octo -> begin_leafs_bbx(Vector3 (new_pos.x-0.8,new_pos.y-0.8, new_pos.z-0.8), Vector3 (new_pos.x+ 0.8,new_pos.y+0.8, new_pos.z+0.8)), end = octo -> end_leafs_bbx(); it != end; ++it){
                 occupied = octo ->isNodeOccupied(*it);
  		            if(occupied == 1){
 		                break;
@@ -143,7 +149,7 @@ vector<Point> Dijkstras(Point start, Point goal, OcTree* octo, int min_x, int ma
         }
       }
       else if(visited[new_pos.x][new_pos.y][new_pos.z]==0 && octo->isNodeOccupied(node) ==0){
-        for(OcTree::leaf_bbx_iterator it = octo -> begin_leafs_bbx(Vector3 (new_pos.x-0.5,new_pos.y-0.5, new_pos.z-0.5), Vector3 (new_pos.x+ 0.5,new_pos.y+0.5, new_pos.z+0.5)), end = octo -> end_leafs_bbx(); it != end; ++it){
+        for(OcTree::leaf_bbx_iterator it = octo -> begin_leafs_bbx(Vector3 (new_pos.x-0.8,new_pos.y-0.8, new_pos.z-0.8), Vector3 (new_pos.x+ 0.8,new_pos.y+0.8, new_pos.z+0.8)), end = octo -> end_leafs_bbx(); it != end; ++it){
                       occupied = octo ->isNodeOccupied(*it);
        		            if(occupied == 1){
       	                 break;
@@ -170,17 +176,10 @@ vector<Point> Dijkstras(Point start, Point goal, OcTree* octo, int min_x, int ma
 }
 
 int main(){
-  //Find number of possible nodes
-  //world_extents = (200, 150, 200);
-  int min_x = -6;
-  int max_x = 6;
-  int min_y = -6;
-  int max_y = 6;
-  int min_z = 0;
-  int max_z = 4;
+  //Should always be {0,0,1} if using mav_hovering_example_with_vi_sensor.launch
   Point start = {0,0,1};
-  Point goal = {5,2,1};
-  AbstractOcTree* tree = AbstractOcTree::read("obstaclecourse1.ot");
+  Point goal = {5,0,1};
+  AbstractOcTree* tree = AbstractOcTree::read("obstaclecourse2.ot");
   OcTree* bt = dynamic_cast<OcTree*>(tree);
   //in python code they create an array of all zeros that will contain a value of 255 if an obstacle is there
   //world_obstacles = np.zeros(world_extents, dtype=np.uint8)
@@ -189,7 +188,7 @@ int main(){
   //STILL NEED TO CODE WHEN THE TIME COMES
 
   vector<Point> results;
-  results = Dijkstras(start, goal, bt, min_x, max_x, min_y, max_y, min_z, max_z);
+  results = Dijkstras(start, goal, bt);
   cout << "Size of Results : "<< results.size() << endl;
   for (int i = 0; i < results.size(); i ++)
   {
