@@ -115,9 +115,6 @@ int main(int argc, char** argv) {
   int64_t time_from_start_ns = 0;
   for (int i = 0; i < waypoints.size(); ++i) {
     WaypointWithTime& wp = waypoints[i];
-    std::cout << wp.position.x() << endl;
-    std::cout << wp.position.y() << endl;
-    std::cout << wp.position.z() << endl;
     Eigen::Vector3d desired_position(wp.position.x(), wp.position.y(), wp.position.z());
     double desired_yaw = wp.yaw;
     mav_msgs::msgMultiDofJointTrajectoryFromPositionYaw(desired_position, desired_yaw, &trajectory_msg);
@@ -129,7 +126,7 @@ int main(int argc, char** argv) {
     wp_pub.publish(trajectory_msg);
     ros::Duration(5).sleep();;
   }
- 
+ cout << "Goal reached" << endl;
 
   ros::spinOnce();
   ros::shutdown();
