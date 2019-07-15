@@ -126,7 +126,7 @@ int main(int argc, char** argv) {
     wp_pub.publish(trajectory_msg);
     ros::Duration(5).sleep();;
   }
- cout << "Goal reached" << endl;
+ cout << "Finished Publishing Waypoints" << endl;
 
   ros::spinOnce();
   ros::shutdown();
