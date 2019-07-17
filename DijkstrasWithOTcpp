@@ -176,7 +176,7 @@ vector<Point> Dijkstras(Point start, Point goal, OcTree* octo) {
       }
     }
   }
-
+  //cout << "Break the loop" << endl;
   //Initialize optimal_path array which contains (x,y,z) points
   vector<Point> path;
   if(pos_of_node.x == goal.x && pos_of_node.y == goal.y && pos_of_node.z == goal.z){
@@ -206,7 +206,7 @@ vector<Point> Dijkstras(Point start, Point goal, OcTree* octo) {
 
 int main(){
   Point start = {0,0,1};
-  Point goal = {35,35,70};
+  Point goal = {5,0,1};
   AbstractOcTree* tree = AbstractOcTree::read("obstaclecourse2.ot");
   OcTree* bt = dynamic_cast<OcTree*>(tree);
   //in python code they create an array of all zeros that will contain a value of 255 if an obstacle is there
@@ -218,6 +218,7 @@ int main(){
   vector<Point> results;
   results = Dijkstras(start, goal, bt);
   cout << "Size of Results : "<< results.size() << endl;
+  cout << "The Goals is ( " << goal.x << " ," <<goal.y<< " ,"<<goal.z <<" )"<< endl; 
   ofstream outfile ("Waypoints_DJ.txt");
   for (int i = 1; i < results.size(); i ++){
   outfile << "0 " << results[i].x << " " << results[i].y << " " << results[i].z << " " << "0" << endl;
