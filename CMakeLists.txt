@@ -65,25 +65,19 @@ add_executable(waypoint_publisher_file src/waypoint_publisher_file.cpp)
 target_link_libraries(waypoint_publisher_file ${catkin_LIBRARIES})
 add_dependencies(waypoint_publisher_file ${catkin_EXPORTED_TARGETS})
 
-add_executable(OUWF src/our_waypoint_publisher_file.cpp)
-target_link_libraries(OUWF ${catkin_LIBRARIES})
-
-
 add_executable(hovering_example src/hovering_example.cpp)
 target_link_libraries(hovering_example ${catkin_LIBRARIES})
 add_dependencies(hovering_example ${catkin_EXPORTED_TARGETS})
 
-add_executable(OcTree_test src/WorkingWithOcTrees.cpp)
-target_link_libraries(OcTree_test ${catkin_LIBRARIES})
+#add_executable(wp_pub_file src/wp_pub_file.cpp)
+#target_link_libraries(wp_pub_file ${catkin_LIBRARIES})
+#add_dependencies(wp_pub_file  ${catkin_EXPORTED_TARGETS})
 
-add_executable(file_test src/test_open_read_file.cpp)
-target_link_libraries(file_test ${catkin_LIBRARIES})
+add_executable(DJ_OT src/DijkstrasWithOT.cpp)
+target_link_libraries(DJ_OT ${catkin_LIBRARIES})
 
-add_executable(DJ_test src/DijkstrasWithNodes.cpp)
-target_link_libraries(DJ_test ${catkin_LIBRARIES})
-
-add_executable(AStar_test src/AStarWithNodes2.cpp)
-target_link_libraries(AStar_test ${catkin_LIBRARIES})
+add_executable(AStar_OT src/AStarWithOT.cpp)
+target_link_libraries(AStar_OT ${catkin_LIBRARIES})
 
 foreach(dir launch models resource worlds)
    install(DIRECTORY ${dir}/
