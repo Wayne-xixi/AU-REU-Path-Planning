@@ -76,8 +76,14 @@ add_dependencies(hovering_example ${catkin_EXPORTED_TARGETS})
 add_executable(DJ_OT src/DijkstrasWithOT.cpp)
 target_link_libraries(DJ_OT ${catkin_LIBRARIES})
 
+add_executable(DJ_BT src/DijkstrasWithBT.cpp)
+target_link_libraries(DJ_BT ${catkin_LIBRARIES})
+
 add_executable(AStar_OT src/AStarWithOT.cpp)
 target_link_libraries(AStar_OT ${catkin_LIBRARIES})
+
+add_executable(AStar_BT src/AStarWithBT.cpp)
+target_link_libraries(AStar_BT ${catkin_LIBRARIES})
 
 foreach(dir launch models resource worlds)
    install(DIRECTORY ${dir}/
