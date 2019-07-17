@@ -213,6 +213,7 @@ int main(){
   vector<Point> results;
   results = Dijkstras(start, goal, bt);
   cout << "Size of Results : "<< results.size() << endl;
+  cout << "The Goal is : ( " << goal.x << ", "<< goal.y <<", "<< goal.z <<")"<< endl;
     ofstream outfile ("Waypoints_AStar.txt");
   for (int i = 1; i < results.size(); i ++){
   outfile << "0 " << results[i].x << " " << results[i].y << " " << results[i].z << " " << "0" << endl;
