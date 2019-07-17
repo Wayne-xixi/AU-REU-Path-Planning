@@ -176,7 +176,7 @@ vector<Point> Dijkstras(Point start, Point goal, OcTree* octo) {
       }
     }
   }
-  cout << "Break the loop" << endl;
+
   //Initialize optimal_path array which contains (x,y,z) points
   vector<Point> path;
   if(pos_of_node.x == goal.x && pos_of_node.y == goal.y && pos_of_node.z == goal.z){
